@@ -1,0 +1,25 @@
+SANITIZED RETEST EVIDENCE
+==========================
+
+Target: localhost training application
+Credentials: synthetic only
+Sensitive values: omitted
+
+SEC-01 Password logging
+BEFORE: login log included a password field.
+AFTER: log record format is `login_attempt username=<synthetic-user> result=<success|failure>`.
+STATUS: PASS
+
+SEC-02 Session handling
+BEFORE: response contained constant `SESSION123`.
+AFTER: response omits the token from JSON; cookie value is generated with a cryptographically secure random function and uses HttpOnly + SameSite=Strict.
+STATUS: PASS
+
+SEC-03 Input validation
+BEFORE: script-like input was accepted.
+AFTER: invalid characters and names longer than 80 characters return HTTP 400.
+STATUS: PASS
+
+SEC-04 Response hardening
+AFTER: X-Content-Type-Options, restrictive Content-Security-Policy, and Cache-Control: no-store are present.
+STATUS: PASS
